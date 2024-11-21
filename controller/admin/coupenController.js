@@ -16,13 +16,8 @@ const couponsPage = async (req, res) => {
 //add coupen ---------------------------->
 const addCoupons = async (req, res) => {
   try {
-    const {
-      couponName,
-      couponCode,
-      discountAmount,
-      description,
-      expiryDate,
-    } = req.body;
+    const { couponName, couponCode, discountAmount, description, expiryDate } =
+      req.body;
 
     const existingCoupon = await Coupons.findOne({ couponCode });
 
@@ -98,13 +93,8 @@ const editCoupons = async (req, res) => {
 const updateCoupon = async (req, res) => {
   try {
     const couponId = req.params.id.trim();
-    const {
-      couponName,
-      couponCode,
-      discountAmount,
-      description,
-      expiryDate,
-    } = req.body;
+    const { couponName, couponCode, discountAmount, description, expiryDate } =
+      req.body;
 
     // Update the coupon data in the database
     const result = await Coupons.updateOne(

@@ -2,8 +2,9 @@
   "name": "first-project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "postinstall": "npm rebuild sharp",
     "build": "npm cache clean --force && npm install",
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -39,7 +40,7 @@
     "order-id": "^2.1.2",
     "pdfkit": "^0.14.0",
     "razorpay": "^2.9.4",
-    "sharp": "^0.33.1",
+    "sharp": "^0.33.5",
     "speakeasy": "^2.0.0"
   }
 }
