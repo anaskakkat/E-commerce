@@ -1,0 +1,100 @@
+<style>
+    .boxOtp {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70vh;
+    }
+
+    .containerOtp {
+        background-color: #ffffff;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        padding: 35px;
+        border-radius: 8px;
+        text-align: center;
+        max-width: 400px;
+        font-family: sans-serif;
+    }
+
+    .containerOtp h4 {
+        font-size: 15px;
+        color: #F67777;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .input-field input {
+        height: 40px;
+        width: 271px;
+        border-radius: 6px;
+        outline: none;
+        font-size: 16px;
+        text-align: center;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .input-field input:focus {
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .input-field div {
+        color: red;
+        margin-bottom: 10px;
+    }
+
+    .button {
+        width: 60%;
+        color: #fff;
+        font-size: 15px;
+        border: none;
+        padding: 10px 0;
+        cursor: pointer;
+        border-radius: 6px;
+        background: #F67777;
+        text-decoration: none;
+    }
+
+    .button:hover {
+        background-color: #f85555;
+    }
+</style>
+
+<%- include('./layouts/header') %>
+
+    <br><br>
+    <br><br>
+
+
+    <div class="boxOtp">
+        <div class="containerOtp">
+            <h4>Enter Email</h4>
+            <form action="/forgotPassword" method="post">
+                <div class="input-field">
+                    <input type="email" name="email" id="email" value="" placeholder="Your Email" required />
+                </div>
+                <% if (messages.length> 0) { %>
+                    <div style="color: red;">
+                        <%= messages[0] %>
+                    </div>
+                    <% } %>
+                        <button type="submit" class="button">Get OTP</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <%- include('./layouts/footer') %>

@@ -1,0 +1,93 @@
+<%- include('./layouts/header') %>
+    <div
+        style="width: 100%; height: 110px; background-color: #f3f3f3; text-align: center; font-size: 24px;font-weight: bolder; color: #7f7f7f;line-height: 100px;">
+        User Profile</div>
+    <%- include('./layouts/userHeader') %>
+
+        <!-- Profile Settings-->
+
+        <div class="col-lg-8 pb-5"
+            style="height: 80vh; border: 1px solid #ffffff; border-radius: 0px;background-color: rgb(255, 255, 255); padding: 15px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        
+            <div class="profile-content" id="address-container">
+                <% if (messages.length > 0) { %>
+                    <div style="color: red;">
+                        <%= messages[0] %>
+                    </div>
+                <% } %>
+                <form class="row"  id="updateForm">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-fn">Name</label>
+                            <input class="form-control " style="background-color: #ffffff;" type="text" id="account-fn"
+                                value="<%= user.name %>" required="" name="name" pattern="^[A-Za-z\s ]+$" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label for="account-email">E-mail Address</label>
+                            <input class="form-control " style="background-color: #ffffff;" type="email"
+                                id="account-email" value="<%= user.email %>" disabled="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group  " style="display: block;">
+                            <label for="account-phone">Phone Number</label>
+                            <input class="form-control " style="background-color: #ffffff;" type="text"
+                                id="account-phone" value="<%= user.mobilenumber %>" required="" pattern="[0-9]{10}" name="mobilenumber">
+                        </div>
+                    </div>
+
+                    <div style="inline-size: min-content;">    
+                          <button class="btn btn-style-1 btn-primary m-5" style="margin: 0 15px;" type="button" onclick="updateProfile()">Update Profile</button> 
+
+                    </div>
+
+
+                </form>
+            </div>
+
+
+
+
+
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        <%- include('./layouts/footer') %>
+
+        <script>
+            function updateProfile() {
+              console.log('btn clicked');
+              const name = $("#account-fn").val();
+              const mobilenumber = $("#account-phone").val();
+              const email = "<%= user.email %>"; 
+        
+              $.ajax({
+                url: '/updateProfile',
+                type: 'POST',
+                data: { name, mobilenumber, email },
+                success: function (response) {
+                    window.location.reload();
+                  console.log(response);
+                },
+                error: function (error) {
+                  console.error(error);
+                }
+              });
+            }
+          </script>

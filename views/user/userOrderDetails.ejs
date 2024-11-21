@@ -1,0 +1,583 @@
+<style>
+    .head-letter {
+        font-size: medium;
+    }
+
+    .subtotall {
+        float: right;
+    }
+
+    .small-text {
+        font-size: small;
+        /* Adjust the font size as needed */
+        color: #888;
+        /* Adjust the color as needed */
+        /* Add any other styles you want */
+    }
+
+    .medium-text {
+        font-size: medium;
+        /* Adjust the font size as needed */
+        /* Add any other styles you want */
+    }
+
+    p {
+        font-size: small;
+        font-weight: 300;
+    }
+
+    .typ {
+        color: rgb(135, 135, 135);
+        font-weight: bold;
+    }
+
+    .sub {
+        margin-bottom: 3px;
+    }
+</style>
+
+<%- include('./layouts/header') %>
+    <div class="head_new_name"
+        style="width: 100%; height: 110px; background-color: #f3f3f3; text-align: center; display: flex; align-items: center; justify-content: center; font-family: 'YourStylishFont', sans-serif; font-size: 24px;font-weight: bolder; color: #7f7f7f;">
+        User Profile
+    </div>
+    <%- include('./layouts/userHeader') %>
+
+        <div class="mainSection col-md-8 fw-3"
+            style="border: 1px solid #ddd; padding: 20px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+
+            <section class="content-main">
+
+                <div class="card">
+                    <header class="card-header" style="border-bottom: 1px solid #e0e0e0; padding-bottom: 15px;">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 col-md-6 mb-lg-0 mb-15" style="margin-top: -10px;">
+                                <span style="color: #3498db; font-size: 24px;">
+                                    <i class="material-icons md-calendar_today"></i>
+                                </span>
+                                <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
+                                    <h5 class="content-title card-title" style="margin-bottom: 0; font-weight: bold;">
+                                        Order Detail</h5>
+                                    <p style="margin: 0; font-size: small ;font-weight: normal;">Order ID:
+                                        #<%=orderLists.orderId%>
+                                    </p>
+                                    <button id="downloadInvoiceBtn" class="btn btn-primary" style="margin-top: 4px;
+                                    padding: revert;">Download Invoice</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </header>
+
+                    <br>
+                    <div class=" card-body">
+                        <div class="row mb-50 mt-20 order-info-wrap">
+                            <div class="col-md-4">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-person"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h5 class="mb-1 typ">Customer</h5>
+                                        <p class="mb-5" style="margin-bottom: 5px;">
+                                            <%= orderLists.userId.name %> <br />
+                                                <%= orderLists.userId.email %> <br />
+                                                    <%= orderLists.userId.mobilenumber %>
+                                        </p>
+
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="col-md-4">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-local_shipping"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h5 class="mb-1 typ">Order Info</h5>
+                                        <p class="mb-1" style="margin-bottom: 5px;">
+
+                                            Pay method: <%= orderLists.payment %> <br />
+                                                Status: <%= orderLists.status %> <br />
+                                                    <% if (orderLists.status==='Canceled' ) { %>
+                                                        Reason: <%= orderLists.cancelationReason %>
+
+                                                            <% } else if (orderLists.status==='Returned' ) { %>
+                                                                Reason: <%= orderLists.returnReason %>
+
+                                                                    <% } %>
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="col-md-4">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-place"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h5 class="mb-1 fw-5 typ">Deliver To</h5>
+                                        <p class="mb-1" style="margin-bottom: 5px;">
+                                            <%= orderLists.delivery_address %>
+                                        </p>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead style="background-color: #e1e1e1;">
+                                            <tr>
+                                                <th width="40%" class="head-letter medium-text">Product
+                                                </th>
+                                                <th width="20%" class="head-letter medium-text">Price
+                                                </th>
+                                                <th width="20%" class="head-letter medium-text">Quantity
+                                                </th>
+                                                <th width="20%" class="head-letter text-end medium-text">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% orderLists.items.forEach(order=> { %>
+
+                                                <tr>
+                                                    <td>
+
+                                                        <div class="left">
+                                                            <img src="/<%= order.productId.images[0]%>" width="40"
+                                                                height="40" class="img-xs" alt="Item" />
+                                                            <%= order.productId.productName%>
+                                                        </div>
+
+
+                                                    </td>
+                                                    <td>₹<%= order.price%>
+                                                    </td>
+                                                    <td>
+                                                        <%= order.qty%>
+                                                    </td>
+                                                    <td class="text-end">₹<%= order.total_price%>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+
+                                                    <!-- Add more rows as needed -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <% if (orderLists.status==='Pending' ) { %>
+                                    <button id="cancelOrderBtn" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#cancelOrderModal">
+                                        Cancel Order
+                                    </button>
+                                    <button id="retryPaymentBtn" class="btn btn-warning" data-toggle="modal"
+                                        data-target="#retryPaymentModal">
+                                        Retry Payment
+                                    </button>
+                                    <% } else if (orderLists.status==='Placed' ) { %>
+                                        <button id="cancelOrderBtn" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#cancelOrderModal">
+                                            Cancel Order
+                                        </button>
+                                        <% } else if (orderLists.status==='Deliverd' ) { %>
+                                            <button id="returnOrderBtn" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#returnOrderModal">
+                                                Return Order
+                                            </button>
+                                            <% } %>
+
+
+
+
+
+
+
+
+                                                <div class="subtotall float-end">
+                                                    <dl class="dlist sub">
+                                                        <dt class="small-text">
+                                                            Subtotal:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            ₹<%= orderLists.total_amount %>
+                                                        </dt>
+
+                                                    </dl>
+                                                    <dl class="dlist sub">
+                                                        <dt class="small-text">
+                                                            Shipping:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            ₹00.00</dt>
+                                                    </dl>
+                                                    <dl class="dlist sub">
+                                                        <dt class="small-text">
+                                                            Discount:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            ₹<%= orderLists.discount_amount %>
+                                                        </dt>
+                                                    </dl>
+                                                    <dl class="dlist sub">
+                                                        <dt class="small-text">Grand
+                                                            total:&nbsp; ₹
+                                                            <%= orderLists.total_amount %>
+                                                        </dt>
+                                                    </dl>
+                                                    <dl class="dlist">
+                                                        <dt class="text-muted small-text">
+                                                            Status:
+                                                            <span
+                                                                class="badge rounded-pill 
+                                                                                    <%= orderLists.status == 'Canceled' ? 'alert-danger' : 
+                                                                                       orderLists.status == 'Deliverd' ? 'alert-success' : 
+                                                                                       orderLists.status == 'Placed' ? 'alert-info' : 
+                                                                                       orderLists.status == 'Returned' ? 'alert-danger' : 'alert-warning' %> text-success">
+                                                                <%= orderLists.status %>
+                                                            </span>
+                                                        </dt>
+
+                                                    </dl>
+                                                </div>
+
+
+
+                            </div>
+                            <!-- modal for cancle reason -->
+                            <div class="col-lg-1">
+                                <div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+
+
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="cancelReason">Reason for
+                                                    Cancellation:</label>
+                                                <input type="text" id="cancelReason" name="cancelReason"
+                                                    class="form-control">
+                                                <div id="flashMessage" style="color: red;"></div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger" id="confirmCancelBtn"
+                                                    onclick="submitCancel()">Confirm Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Button to trigger the cancellation modal -->
+
+                                <!-- Return Order Modal -->
+                                <div class="modal fade" id="returnOrderModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="returnOrderModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="returnOrderModalLabel">
+                                                    Return Order</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Your return order form or input for the reason goes here -->
+                                                <label for="returnReason">Reason:</label>
+                                                <input type="text" id="returnReason" name="returnReason"
+                                                    class="form-control">
+                                                <div id="flashMessage" style="color: red;"></div>
+
+
+                                            </div>
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" id="submitButton" class="btn btn-primary"
+                                                    onclick="submitReturn()">Submit Return</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <!-- Additional content or widgets can be placed here -->
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+
+        <!-- Include this script in your HTML file -->
+
+
+        <script>
+            document.getElementById('retryPaymentBtn').addEventListener('click', retryPayment);
+
+            function retryPayment() {
+                axios.post('/retryRazorPayment', {
+                    orderId: '<%= orderLists._iqd %>'
+                })
+                    .then(response => {
+                        console.log('response:id:', response.data.orderId, 'Response data: ', response.data.paymentDetails);
+                        razorpayRetryPayment(response.data.paymentDetails, response.data.orderId);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+
+                    });
+            }w
+            function razorpayRetryPayment(order, ID) {
+                console.log('id::', ID, 'order:>', order,);
+
+                var options = {
+                    "key": "rzp_test_30bTTgzLa7YbmF",
+                    "amount": order.amount,
+                    "currency": "INR",
+                    "name": "Shopin",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "order_id": order.order_id,
+                    "handler": function (response) {
+                        // alert(response.razorpay_payment_id);
+                        // alert(response.razorpay_order_id);
+                        // alert(response.razorpay_signature)
+                        if (response.razorpay_payment_id) {
+                            verifyPayment(response);
+
+                        }
+                    },
+                    "prefill": {
+                        "name": "Shopin PVt Ltd",
+                        "email": "anasbrototype@gmail.com",
+                        "contact": "9000090000"
+                    },
+                    "notes": {
+                        "address": "Shopin Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#F67777"
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+                rzp1.on('payment.failed', function (response) {
+
+                    // alert(response.error.metadata.order_id);
+                    alert(response.error.metadata.payment_id);
+
+
+                });
+
+            }
+
+            function verifyPayment(payment) {
+                console.log('verifyPayment called');
+                $.ajax({
+                    url: '/retryVerifyPayment',
+                    method: 'post',
+                    data: {
+                        payment
+                    },
+                    success: (response) => {
+                        console.log('response came');
+                        if (response.razorpayRetrySuccess) {
+
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Payment Succeeded',
+                                text: 'Your payment was successful!',
+                                timer: 2000, // Auto close after 2 seconds
+                                showConfirmButton: false, // Hide the "OK" button
+                            })
+                            window.location.reload();
+                        }
+                    }
+
+                })
+            }
+
+
+
+        </script>
+        <script>
+            // Add an event listener to the Download Invoice button
+            document.getElementById('downloadInvoiceBtn').addEventListener('click', async () => {
+                try {
+                    const orderId = '<%=orderLists._id%>';
+
+                    // Make an asynchronous request to the server to generate and download the PDF
+                    const response = await fetch('/generatepdf', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            orderId: orderId,
+                        }),
+                    });
+
+                    // Check if the request was successful (status code 200)
+                    if (response.ok) {
+                        // Create a Blob from the response data
+                        const blob = await response.blob();
+
+                        // Create a link element to trigger the download
+                        const link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = `${orderId}_invoice.pdf`;
+
+                        // Append the link to the document and simulate a click to trigger the download
+                        document.body.appendChild(link);
+                        link.click();
+
+                        // Remove the link element
+                        document.body.removeChild(link);
+                    } else {
+                        // Handle errors if the request was not successful
+                        console.error('Error:', response.statusText);
+                        // Display an error message to the user if needed
+                    }
+                } catch (error) {
+                    // Handle any unexpected errors
+                    console.error('Error:', error.message);
+                    // Display an error message to the user if needed
+                }
+            });
+        </script>
+
+
+
+
+
+
+
+
+        <%- include('./layouts/footer') %>
+
+            <script>
+                function submitReturn() {
+                    // Get the return reason from the input field
+                    var returnReason = document.getElementById("returnReason").value
+
+                    // Validate return reason
+                    if (/^\s*$/.test(returnReason)) {
+                        displayFlashMessage("Please provide a valid return reason.", "text-danger");
+                        return;
+                    }
+
+                    const submitButton = document.getElementById('submitButton');
+
+                    // Adjust the API endpoint and request payload based on your backend implementation
+                    fetch('/ordePageUser/userOrderDetailsReturn', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            orderId: '<%=orderLists._id%>',
+                            returnReason: returnReason
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response from the server (e.g., show a success message)
+                            console.log(data);
+                            if (data.success) {
+                                submitButton.innerText = 'Success!';
+
+                            }
+
+
+                        })
+                        .catch(error => {
+                            // Handle errors
+                            console.error('Error:', error);
+                            displayFlashMessage("An error occurred while submitting the return.", "alert-danger");
+                        });
+
+                    // Close the modal after submitting
+                    $('#returnOrderModal').modal('hide');
+                    window.location.reload();
+
+
+                }
+                //calcelation order
+                function submitCancel() {
+                    // Get the return reason from the input field
+                    var cancelReason = document.getElementById("cancelReason").value
+                    console.log(cancelReason);
+                    // Validate return reason
+                    if (/^\s*$/.test(cancelReason)) {
+                        displayFlashMessage("Please provide a valid  reason.", "text-danger");
+                        return;
+                    }
+
+                    const submitButton = document.getElementById('confirmCancelBtn');
+
+                    // Adjust the API endpoint and request payload based on your backend implementation
+                    fetch('/ordePageUser/userOrderDetails', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            orderId: '<%=orderLists._id%>',
+                            cancelReason: cancelReason
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            if (data.success) {
+                                submitButton.innerText = 'Success!';
+
+
+                            }
+
+
+                        })
+                        .catch(error => {
+                            // Handle errors
+                            console.error('Error:', error);
+                            displayFlashMessage("An error occurred while submitting the return.", "alert-danger");
+                        });
+
+                    // Close the modal after submitting
+                    $('#returnOrderModal').modal('hide');
+                    window.location.reload();
+
+
+                }
+
+
+
+
+
+                function displayFlashMessage(message, className) {
+                    var flashMessage = document.getElementById("flashMessage");
+                    flashMessage.innerHTML = message;
+                    flashMessage.className = "alert " + className;
+                    flashMessage.style.display = "block";
+
+                    // Hide the flash message after a few seconds (adjust as needed)
+                    setTimeout(function () {
+                        flashMessage.style.display = "none";
+                    }, 3000);
+                }
+
+
+
+
+            </script>
