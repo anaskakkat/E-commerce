@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "npm rebuild sharp",
     "build": "npm cache clean --force && npm install",
-    "start": "nodemon app.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
